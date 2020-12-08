@@ -4,8 +4,10 @@ const { Schema, model } = require('mongoose');
  
 const playerSchema = new Schema(
   {
-    username: String,
-    password: String
+    email: String,
+    password: String,
+    firstname: String,
+    lastname: String
   },
   {
     timestamps: true

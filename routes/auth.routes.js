@@ -3,44 +3,41 @@
 const { Router } = require('express');
 const router = new Router();
 
-// User model
 const Player= require('../models/player.model.js');
 
-// Bcrypt to encrypt passwords
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 
 router.get('/signup', (req, res, next) => res.render('auth/signup'));
 
 router.post('/signup', (req, res, next) => {
-  const { username, password } = req.body;
+  const playerEmail = req.body.email;
+  const playerPassword = req.body.password;
+  const playerFirstName = req.body.firstName;
+  const playerLastName = req.body.LastName;
 
-  // 1. Check username and password are not empty
-  if (!username || !password) {
-    res.render('auth/signup', { errorMessage: 'Indicate username and password' });
+
+  if(playerEmail == '' || playerPassword == ''){
+    res.render('auth/signup', { errorMessage: 'Please provide your email and password.' });
     return;
   }
 
   Player
-  .findOne({ username })
-  .then(player => {
-      // 2. Check user does not already exist
+    .findOne({ email: playerEmail })
+    .then(player => {
       if (player !== null) {
-        res.render('auth/signup', { message: 'The username already exists' });
+        res.render('auth/signup', { message: 'The email already exists' });
         return;
       }
 
-      // Encrypt the password
       const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
-
-      //
-      // Save the user in DB
-      //
+      const hashPass = bcrypt.hashSync(playerPassword, salt);
 
       const newPlayer = new Player({
-        username,
-        password: hashPass
+        email: playerEmail,
+        password: hashPass,
+        firstname: playerFirstName,
+        lastname: playerLastName
       });
 
       newPlayer

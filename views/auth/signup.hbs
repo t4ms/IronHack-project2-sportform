@@ -4,14 +4,24 @@
 
 <form action="/signup" method="POST" id="form-container">
  <div>
-  <label for="username">Username</label>
-  <input id="username" type="text" name="username">
+  <label for="">Email:</label>
+  <input type="text" name="email" id="" > 
  </div>
-
+ <div>
+  <label for="">First name:</label>
+  <input type="text" name="firstName" >
+ </div>
+ <div>
+  <label for="">Last name:</label>
+  <input type="text" name="lastName" >
+ </div>
  <div>
   <label for="password">Password</label>
   <input id="password" type="password" name="password">
  </div>
+
+
+{{!-- {{> flashMessage}} --}}
 
  {{#if errorMessage}}
   <div class="error-message">{{errorMessage}}</div>
