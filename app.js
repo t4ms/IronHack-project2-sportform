@@ -49,37 +49,38 @@ app.use(
 
 
 
-const Player = require('./models/player.model.js');
 
+const User = require('./models/user.model.js');
+ 
 // ...
-
-passport.serializeUser((player, cb) => cb(null, player._id));
-
+ 
+passport.serializeUser((user, cb) => cb(null, user._id));
+ 
 passport.deserializeUser((id, cb) => {
-  Player.findById(id)
+  User.findById(id)
     .then(user => cb(null, user))
     .catch(err => cb(err));
 });
-
+ 
 passport.use(
   new LocalStrategy(
     { passReqToCallback: true },
     {
-      emailField: 'email', // by default
+      usernameField: 'username', // by default
       passwordField: 'password' // by default
     },
-    (email, password, done) => {
-      Player.findOne({ email })
-        .then(player => {
-          if (!player) {
-            return done(null, false, { message: 'Incorrect email' });
+    (userEmail, password, done) => {
+      User.findOne({ email: userEmail })
+        .then(user => {
+          if (!user) {
+            return done(null, false, { message: 'Incorrect username' });
           }
-
+ 
           if (!bcrypt.compareSync(password, user.password)) {
             return done(null, false, { message: 'Incorrect password' });
           }
-
-          done(null, player);
+ 
+          done(null, user);
         })
         .catch(err => done(err));
     }
@@ -122,7 +123,7 @@ app.locals.title = '*** sportform *** ';
 
 const index = require('./routes/index');
 app.use('/', index);
-const router = require('./routes/auth.routes');
+const router = require('./routes/user.routes');
 app.use('/', router);
 
 

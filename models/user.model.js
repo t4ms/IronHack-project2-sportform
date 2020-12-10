@@ -2,7 +2,7 @@
  
 const { Schema, model } = require('mongoose');
  
-const playerSchema = new Schema(
+const userSchema = new Schema(
   {
     email: String,
     password: String,
@@ -14,4 +14,4 @@ const playerSchema = new Schema(
   }
 );
  
-module.exports = model('Player', playerSchema);
+module.exports = model('User', userSchema);
