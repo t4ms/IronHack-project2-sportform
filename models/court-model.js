@@ -7,7 +7,7 @@ const courtSchema = new Schema({
   time: Number,
   description: String,
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
-  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' } ]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' } ]
 },{
   timestamps: true
 });

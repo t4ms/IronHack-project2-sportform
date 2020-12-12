@@ -15,6 +15,3 @@ const userSchema = new Schema({
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
-
-// this way is an option as well and it's the same as the one above
-// module.exports = mongoose.model('User', userSchema);

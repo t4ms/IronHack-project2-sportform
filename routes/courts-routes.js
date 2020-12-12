@@ -50,17 +50,17 @@ router.get('/courts/:courtId',isLoggedIn, (req, res, next) => {
 
 Court.findById(req.params.courtId)
   .populate('owner')
-  .populate({path: 'reviews', populate: {path:'user'}})
+  .populate({path: 'comments', populate: {path:'user'}})
   .then(foundcourt => {
     if(foundcourt.owner.equals(req.user._id)){
       foundcourt.isOwner = true;
     }
     
-    Promise.all(foundcourt.reviews.filter(singleReview => {       
-      if(singleReview.user._id.equals(req.user._id)){ 
-        singleReview.canBeChanged = true;
+    Promise.all(foundcourt.comments.filter(singlecomment => {       
+      if(singlecomment.user._id.equals(req.user._id)){ 
+        singlecomment.canBeChanged = true;
       }
-      return singleReview;
+      return singlecomment;
     }))
     .then(() => {
       res.render('court-pages/court-details', { court: foundcourt } )

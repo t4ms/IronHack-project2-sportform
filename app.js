@@ -75,7 +75,7 @@ app.use('/', index);
 app.use('/', require('./routes/auth-routes'));
 app.use('/', require('./routes/user-routes'));
 app.use('/', require('./routes/courts-routes'));
-app.use('/', require('./routes/review-routes'));
+app.use('/', require('./routes/comments-routes'));
 
 
 module.exports = app;
