@@ -17,8 +17,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose')
 
 
+// import passport docs from config folder
+const passportSetup =  require('./config/passport/passport-setup');
+
 // Set up the database
-require('./configs/db.config');
+require('./config/db.config');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -26,7 +29,7 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 
-// require('./configs/session.config');
+// require('./config/session.config');
 
 
 // Set up sessions -> session.config.js
@@ -47,6 +50,8 @@ app.use(
   })
 );
 
+passportSetup(app);
+
 
 
 
@@ -54,43 +59,41 @@ const User = require('./models/user.model.js');
  
 // ...
  
-passport.serializeUser((user, cb) => cb(null, user._id));
+// passport.serializeUser((user, cb) => cb(null, user._id));
  
-passport.deserializeUser((id, cb) => {
-  User.findById(id)
-    .then(user => cb(null, user))
-    .catch(err => cb(err));
-});
+// passport.deserializeUser((id, cb) => {
+//   User.findById(id)
+//     .then(user => cb(null, user))
+//     .catch(err => cb(err));
+// });
  
-passport.use(
-  new LocalStrategy(
-    { passReqToCallback: true },
-    {
-      usernameField: 'username', // by default
-      passwordField: 'password' // by default
-    },
-    (userEmail, password, done) => {
-      User.findOne({ email: userEmail })
-        .then(user => {
-          if (!user) {
-            return done(null, false, { message: 'Incorrect username' });
-          }
+// passport.use(
+//   new LocalStrategy(
+//     { passReqToCallback: true },
+//     {
+//       usernameField: 'username', // by default
+//       passwordField: 'password' // by default
+//     },
+//     (userEmail, password, done) => {
+//       User.findOne({ email: userEmail })
+//         .then(user => {
+//           if (!user) {
+//             return done(null, false, { message: 'Incorrect username' });
+//           }
  
-          if (!bcrypt.compareSync(password, user.password)) {
-            return done(null, false, { message: 'Incorrect password' });
-          }
+//           if (!bcrypt.compareSync(password, user.password)) {
+//             return done(null, false, { message: 'Incorrect password' });
+//           }
  
-          done(null, user);
-        })
-        .catch(err => done(err));
-    }
-  )
-);
+//           done(null, user);
+//         })
+//         .catch(err => done(err));
+//     }
+//   )
+// );
 
-
-
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 
@@ -123,7 +126,9 @@ app.locals.title = '*** sportform *** ';
 
 const index = require('./routes/index');
 app.use('/', index);
-const router = require('./routes/user.routes');
+const auth = require('./routes/auth-routes');
+app.use('/', auth);
+const router = require('./routes/user-routes');
 app.use('/', router);
 
 
