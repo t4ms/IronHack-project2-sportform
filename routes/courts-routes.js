@@ -9,11 +9,18 @@ router.get('/courts/add', isLoggedIn, (req, res, next) => {
   res.render('court-pages/add-court');
 });
 
-router.post('/create-court',(req, res, next) => {
-  const { name, description } = req.body;
-  court.create({
-    name,
-    description,
+router.post('/create-court', (req, res, next) => {
+
+  const courtName = req.body.name;
+  const courtDate = req.body.date;
+  const courtTime = req.body.time;
+  const courtDescription = req.body.description;
+
+  Court.create({
+    name: courtName,
+    date: courtDate,
+    time: courtTime,
+    description: courtDescription,
     owner: req.user._id
   })
   .then( newcourt => {
@@ -24,8 +31,8 @@ router.post('/create-court',(req, res, next) => {
 
 // show all the courts
 router.get('/courts', (req, res, next) => {
-  court.find().populate('owner')
-  .then(courtssFromDB => {
+  Court.find().populate('owner')
+  .then(courtsFromDB => {
     courtsFromDB.forEach(onecourt => {
       if(req.user){
         if(onecourt.owner.equals(req.user._id)){
@@ -41,7 +48,8 @@ router.get('/courts', (req, res, next) => {
 // get the details of a specific court
 router.get('/courts/:courtId',isLoggedIn, (req, res, next) => {
 
-  court.findById(req.params.courtId).populate('owner')
+Court.findById(req.params.courtId)
+  .populate('owner')
   .populate({path: 'reviews', populate: {path:'user'}})
   .then(foundcourt => {
     if(foundcourt.owner.equals(req.user._id)){
@@ -75,8 +83,8 @@ router.post('/courts/:courtId/update', (req, res, next) => {
                          
   }                                                               
 
-  court.findByIdAndUpdate(req.params.courtId, updatedcourt)
-  .then( theUpdatedcourt => {
+Court.findByIdAndUpdate(req.params.courtId, updatedcourt)
+.then( theUpdatedcourt => {
     res.redirect(`/courts/${updatedcourt._id}`);
   } )
   .catch( err => next(err) )
@@ -84,7 +92,7 @@ router.post('/courts/:courtId/update', (req, res, next) => {
 
 // delete a specific court
 router.post('/courts/:id/delete', (req, res, next) => {
-  court.findByIdAndDelete(req.params.id)
+  Court.findByIdAndDelete(req.params.id)
   .then(() => {
     res.redirect('/courts');
   })

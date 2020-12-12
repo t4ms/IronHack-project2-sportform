@@ -13,12 +13,14 @@
     <label for="">Name</label>
     <input type="text" name="name" id="" value="{{court.name}}">
 
+    <label for="">Date</label>
+    <input type="text" name="name" id="" value="{{court.date}}">
+
+    <label for="">Time</label>
+    <input type="text" name="name" id="" value="{{court.time}}">
+
     <label for="">Description</label>
     <textarea name="description" id="" cols="30" rows="10"> {{court.description}} </textarea>
-
-    <img src="{{court.imageUrl}}" alt="" width="200">
-    <label for="">Upload new image</label>
-    <input type="file" name="imageUrl" id=""> {{!-- type="file" => when adding images or any other files --}}
 
     <button type="submit">Save changes</button>
   </form>

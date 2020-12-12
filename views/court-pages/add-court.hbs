@@ -1,8 +1,14 @@
 <h1>Create a new court</h1>
 
-<form action='/create-court' method='POST' enctype='multipart/form-data'>
+<form action='/create-court' method='POST'>
   <label for="">Name</label>
   <input type="text" name="name" id="">
+
+  <label for="">Date</label>
+  <input type="date" name="date" id="">
+
+  <label for="">Time</label>
+  <input type="num" name="time" id="">
 
   <label for="">Description</label>
   <textarea name="description" id="" cols="30" rows="10"></textarea>
