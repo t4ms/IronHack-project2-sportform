@@ -1,0 +1,14 @@
+<ul>
+  {{#each courtsFromDB}}
+  <li> 
+    <h3> <a href="/courts/{{this._id}}"> {{ this.name }} </a></h3> 
+    <p>- posted by {{ this.owner.fullName }}</p>
+    <img src="{{this.imageUrl}}" alt="" width="300">
+    {{#if this.isOwner}}
+      <form action="/courts/{{this._id}}/delete" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    {{/if}}
+  </li>
+  {{/each}}
+</ul>

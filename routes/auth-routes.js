@@ -2,27 +2,23 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
-const User = require('../models/user.model');
+const User = require('../models/user-model');
 
 const bcrypt = require('bcryptjs');
 const bcryptSalt = 10;
 
 router.get('/signup', (req, res, next) => {
-  // renders the page with the sign up form from the "views/auth" folder
   res.render('auth/signup');
 })
 
-//<form action="/register" method="POST">
-//                |
-//                V
-router.post('/signup', (req, res, next) => {
+
+router.post('/register', (req, res, next) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
-  const userFirstName = req.body.firstName;
-  const userLastName = req.body.lastName;
+  const userFullName = req.body.fullName;
 
   // if any of the following fields are left empty, send warning to users
-  if(userEmail == '' || userPassword == ''){
+  if(userEmail == '' || userPassword == '' || userFullName == ''){
     req.flash('error', 'Please fill all the fields.');
 
     // and render the form again
@@ -52,8 +48,7 @@ router.post('/signup', (req, res, next) => {
       User.create({
         email: userEmail,
         password: hashPassword,
-        firstName: userFirstName,
-        lastName: userLastName
+        fullName: userFullName
       })
       .then(user => {
         // if all good, log in the user automatically

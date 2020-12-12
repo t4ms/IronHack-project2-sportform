@@ -1,21 +1,14 @@
-{{! views/auth/login.hbs }}
+<h1>Login</h1>
 
 <form action="/login" method="POST">
- <div>
- <label for="email">Email:</label>
- <input type="text" name="email">
- </div>
 
- <div>
- <label for="password">Password:</label>
- <input type="password" name="password">
- </div>
+  <label for="">Email:</label>
+  <input type="text" name="email" id="" >
 
- {{#if errorMessage}}
- <div class="error-message">{{errorMessage}}</div>
- {{/if}}
-
- <div>
- <button>Log in</button>
- </div>
+  <label for="">Password:</label>
+  <input type="password" name="password" id="" >
+  
+  <button type="submit">Login</button>
 </form>
+
+{{> flashMessage}}

@@ -1,0 +1,51 @@
+<h1>{{ court.name }}</h1>
+<p>This court is hosted by: <b> {{ court.owner.fullName }} </b></p>
+<hr>
+<h3>Description:</h3>
+<p> {{ court.description }}</p>
+<hr>
+
+{{#if court.isOwner}}
+  <button id="toggle-button">Update court details</button>
+
+  <form action="/courts/{{court._id}}/update" method="post" id="edit-form" hidden="true" 
+  enctype='multipart/form-data'> {{!-- 🚀 enctype needs to be here if there is anything type="file" in the form --}}
+    <label for="">Name</label>
+    <input type="text" name="name" id="" value="{{court.name}}">
+
+    <label for="">Description</label>
+    <textarea name="description" id="" cols="30" rows="10"> {{court.description}} </textarea>
+
+    <img src="{{court.imageUrl}}" alt="" width="200">
+    <label for="">Upload new image</label>
+    <input type="file" name="imageUrl" id=""> {{!-- type="file" => when adding images or any other files --}}
+
+    <button type="submit">Save changes</button>
+  </form>
+{{/if}}
+
+<hr>
+{{!-- USER CAN NOT LEAVE REVIEWS ON THEIR OWN PROPERTIES --}}
+{{!-- this means that only if the user IS NOT the owner, this form will be shown --}}
+{{#unless court.isOwner}}
+  <h2>Add a review:</h2>
+  <form action="/courts/{{court._id}}/add-review" method="POST">
+    <textarea name="comment" id="" cols="10" rows="5"></textarea>
+    <button type="submit">Add</button>
+  </form>
+{{/unless}}
+
+
+{{!-- if there are reviews, show them, if not, forget about it 🙃 --}}
+{{#if court.reviews}}
+  <h3>Reviews:</h3>
+  {{#each court.reviews}}
+    <p> <b>{{ this.user.fullName }} said: </b> {{ this.comment }}  </p>
+    {{#if this.canBeChanged}}
+      <a href="/reviews/{{this._id}}">Edit</a>
+      <form action="/reviews/{{this._id}}" method="POST">
+        <button type="submit"> Delete </button>
+      </form>
+    {{/if}}
+  {{/each}}
+{{/if}}

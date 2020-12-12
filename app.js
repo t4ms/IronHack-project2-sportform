@@ -5,97 +5,28 @@ const cookieParser = require('cookie-parser');
 const express      = require('express');
 const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
+const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
-//Requirements session -> sessions.config
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose')
-
 
 // import passport docs from config folder
 const passportSetup =  require('./config/passport/passport-setup');
 
-// Set up the database
-require('./config/db.config');
+mongoose
+  .connect('mongodb://localhost/dbsportform', {useNewUrlParser: true})
+  .then(x => {
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+  })
+  .catch(err => {
+    console.error('Error connecting to mongo', err)
+  });
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
-
-
-// require('./config/session.config');
-
-
-// Set up sessions -> session.config.js
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection
-    }),
-    resave: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 },
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
-      })
-  })
-);
-
-passportSetup(app);
-
-
-
-
-const User = require('./models/user.model.js');
- 
-// ...
- 
-// passport.serializeUser((user, cb) => cb(null, user._id));
- 
-// passport.deserializeUser((id, cb) => {
-//   User.findById(id)
-//     .then(user => cb(null, user))
-//     .catch(err => cb(err));
-// });
- 
-// passport.use(
-//   new LocalStrategy(
-//     { passReqToCallback: true },
-//     {
-//       usernameField: 'username', // by default
-//       passwordField: 'password' // by default
-//     },
-//     (userEmail, password, done) => {
-//       User.findOne({ email: userEmail })
-//         .then(user => {
-//           if (!user) {
-//             return done(null, false, { message: 'Incorrect username' });
-//           }
- 
-//           if (!bcrypt.compareSync(password, user.password)) {
-//             return done(null, false, { message: 'Incorrect password' });
-//           }
- 
-//           done(null, user);
-//         })
-//         .catch(err => done(err));
-//     }
-//   )
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -117,19 +48,34 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+// REGISTER THE PARTIALS:
+hbs.registerPartials(__dirname + '/views/partials');
 
 // default value for title local
-app.locals.title = '*** sportform *** ';
+app.locals.title = '***sportform***';
+
+// handle session here:
+// app.js
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+// 🎯🎯🎯 MUST come after the session: 🎯🎯🎯
+passportSetup(app);
 
 
+// ROUTES MIDDLEWARE:
 
 const index = require('./routes/index');
 app.use('/', index);
-const auth = require('./routes/auth-routes');
-app.use('/', auth);
-const router = require('./routes/user-routes');
-app.use('/', router);
+
+// require auth routs so the app knows they exist
+app.use('/', require('./routes/auth-routes'));
+app.use('/', require('./routes/user-routes'));
+app.use('/', require('./routes/courts-routes'));
+app.use('/', require('./routes/review-routes'));
 
 
 module.exports = app;
