@@ -73,11 +73,13 @@ Court.findById(req.params.courtId)
 // post => save updates in the specific court
 router.post('/courts/:courtId/update', (req, res, next) => {
 
-  const { name, description } = req.body;
+  const { name, date, time, description } = req.body;
   // we use ES6 destructuring and if not, we would have to do this -> const name = req.body.name; and const description = req.body.description;
 
   const updatedcourt = { 
-    name,                  
+    name,
+    date,
+    time,                  
     description,           
     owner: req.user._id	   
                          

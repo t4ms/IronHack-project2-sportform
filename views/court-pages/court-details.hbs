@@ -1,23 +1,23 @@
 <h1>{{ court.name }}</h1>
 <p>This court is hosted by: <b> {{ court.owner.fullName }} </b></p>
 <hr>
-<h3>Description:</h3>
-<p> {{ court.description }}</p>
+<p>Date: {{ court.date }}</p>
+<p>Time: {{ court.time }}</p>
+<p>Description: {{ court.description }}</p>
 <hr>
 
 {{#if court.isOwner}}
   <button id="toggle-button">Update court details</button>
 
-  <form action="/courts/{{court._id}}/update" method="post" id="edit-form" hidden="true" 
-  enctype='multipart/form-data'> {{!-- 🚀 enctype needs to be here if there is anything type="file" in the form --}}
+  <form action="/courts/{{court._id}}/update" method="post" id="edit-form" hidden="true">
     <label for="">Name</label>
     <input type="text" name="name" id="" value="{{court.name}}">
 
     <label for="">Date</label>
-    <input type="text" name="name" id="" value="{{court.date}}">
+    <input type="date" name="date" id="" value="{{court.date}}">
 
     <label for="">Time</label>
-    <input type="text" name="name" id="" value="{{court.time}}">
+    <input type="number" name="time" id="" value="{{court.time}}">
 
     <label for="">Description</label>
     <textarea name="description" id="" cols="30" rows="10"> {{court.description}} </textarea>
