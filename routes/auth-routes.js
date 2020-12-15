@@ -54,7 +54,7 @@ router.post('/register', (req, res, next) => {
         // if all good, log in the user automatically
           req.login(user, (err) => {
             if(err){
-              // req.flash.error = 'some message here'
+              req.flash.error = 'some message here'
               req.flash('error', 'Auto login does not work so please log in manually ✌🏻');
               res.redirect('/login');
               return;

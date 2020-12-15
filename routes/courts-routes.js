@@ -70,27 +70,27 @@ Court.findById(req.params.courtId)
   .catch( err => next(err) )
 })
 
-// post => save updates in the specific court
 router.post('/courts/:courtId/update', (req, res, next) => {
 
-  const { name, date, time, description } = req.body;
-  // we use ES6 destructuring and if not, we would have to do this -> const name = req.body.name; and const description = req.body.description;
+    const courtName = req.body.name;
+    const courtDate = req.body.date;
+    const courtTime = req.body.time;
+    const courtDescription = req.body.description;
 
-  const updatedcourt = { 
-    name,
-    date,
-    time,                  
-    description,           
-    owner: req.user._id	   
-                         
-  }                                                               
-
-Court.findByIdAndUpdate(req.params.courtId, updatedcourt)
-.then( theUpdatedcourt => {
-    res.redirect(`/courts/${updatedcourt._id}`);
-  } )
-  .catch( err => next(err) )
-})
+    const updatedcourt = { 
+      name: courtName,
+      date: courtDate,
+      time: courtTime,
+      description: courtDescription,
+      owner: req.user._id	                                                             
+    }
+    Court.findByIdAndUpdate(req.params.courtId, updatedcourt)
+      .then( theUpdatedcourt => {
+         res.redirect(`/courts/${theUpdatedcourt._id}`);  
+        //  
+        })
+      .catch( err => next(err) )
+    })
 
 // delete a specific court
 router.post('/courts/:id/delete', (req, res, next) => {

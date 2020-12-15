@@ -28,15 +28,6 @@
 
 <hr>
 
-{{#unless court.isOwner}}
-  <h2>Add a comment:</h2>
-  <form action="/courts/{{court._id}}/add-comment" method="POST">
-    <textarea name="comment" id="" cols="10" rows="5"></textarea>
-    <button type="submit">Add</button>
-  </form>
-{{/unless}}
-
-
 {{#if court.comments}}
   <h3>comments:</h3>
   {{#each court.comments}}
@@ -48,3 +39,13 @@
     {{/if}}
   {{/each}}
 {{/if}}
+
+
+  <h2>Add a comment:</h2>
+  <form action="/courts/{{court._id}}/add-comment" method="POST">
+    <textarea name="comment" id="" cols="10" rows="5"></textarea>
+    <button type="submit">Add</button>
+  </form>
+
+
+

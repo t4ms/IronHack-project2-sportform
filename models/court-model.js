@@ -6,6 +6,7 @@ const courtSchema = new Schema({
   date: Date,
   time: Number,
   description: String,
+  player: [],
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' } ]
 },{
