@@ -55,14 +55,13 @@ hbs.registerPartials(__dirname + '/views/partials');
 app.locals.title = '***sportform***';
 
 // handle session here:
-// app.js
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
   saveUninitialized: true
 }));
 
-// 🎯🎯🎯 MUST come after the session: 🎯🎯🎯
+
 passportSetup(app);
 
 
@@ -76,6 +75,7 @@ app.use('/', require('./routes/auth-routes'));
 app.use('/', require('./routes/user-routes'));
 app.use('/', require('./routes/courts-routes'));
 app.use('/', require('./routes/comments-routes'));
+app.use('/', require('./routes/addPlayer-routes'));
 
 
 module.exports = app;

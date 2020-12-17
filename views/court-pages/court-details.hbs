@@ -28,6 +28,25 @@
 
 <hr>
 
+{{#if court.player}}
+  <h3>Player:</h3>
+  {{#each court.player}}
+    <p> Player1: <b>{{ this._id }} </b> </p>
+
+      <form action="/player/{{this._id}}" method="POST">
+        <button type="submit"> Delete </button>
+      </form>
+  {{/each}}
+{{/if}}  
+
+
+<h2>Join the game</h2>
+<form action="/courts/{{court._id}}/add-player" method="POST">
+<button type="submit">Join</button>
+</form>
+
+<hr>
+
 {{#if court.comments}}
   <h3>comments:</h3>
   {{#each court.comments}}

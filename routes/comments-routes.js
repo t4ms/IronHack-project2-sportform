@@ -12,6 +12,8 @@ router.post('/courts/:courtId/add-comment', (req, res, next) => {
     canBeChanged: false
   }
 
+
+
   Comment.create(newComment)
   .then(theNewComment => {
     Court.findById(req.params.courtId)
