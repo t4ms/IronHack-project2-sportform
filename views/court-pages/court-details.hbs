@@ -31,7 +31,8 @@
 {{#if court.player}}
   <h3>Player:</h3>
   {{#each court.player}}
-    <p> Player1: <b>{{ this._id }} </b> </p>
+    <p> Player1: <b>{{ this.fullName }} </b> </p>
+    <p> Player1: <b>{{ this.email }} </b> </p>
 
       <form action="/player/{{this._id}}" method="POST">
         <button type="submit"> Delete </button>

@@ -49,6 +49,7 @@ router.get('/courts', (req, res, next) => {
 router.get('/courts/:courtId',isLoggedIn, (req, res, next) => {
 
 Court.findById(req.params.courtId)
+  .populate('player')
   .populate('owner')
   .populate({path: 'comments', populate: {path:'user'}})
   .then(foundcourt => {

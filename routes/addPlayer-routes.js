@@ -29,7 +29,7 @@ router.post('/player/:id', (req, res, next) => {
   .then(() => {
     Court.findOne({'player': req.params.id}) 
     .then(foundcourt => {
-      for(let i=0; i< foundcourt.player.length; i++ ){
+      for(let i=0; i < foundcourt.player.length; i++ ){
         console.log(foundcourt.player[i]._id.equals(req.params.id))
         if(foundcourt.player[i]._id.equals(req.params.id)){
           foundcourt.player.splice(i, 1);
