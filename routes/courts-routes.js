@@ -15,13 +15,19 @@ router.post('/create-court', (req, res, next) => {
   const courtDate = req.body.date;
   const courtTime = req.body.time;
   const courtDescription = req.body.description;
+  const courtLongitude = req.body.longitude;
+  const courtLongitud= req.body.latitude;
 
   Court.create({
     name: courtName,
     date: courtDate,
     time: courtTime,
     description: courtDescription,
-    owner: req.user._id
+    owner: req.user._id,
+    location: {
+      type: 'Point',
+      coordinates: [courtLongitud, courtLongitude]
+    }
   })
   .then( newcourt => {
     res.redirect('/courts');
@@ -114,5 +120,6 @@ function isLoggedIn(req, res, next){
   }
 
 }
+
 
 module.exports = router;

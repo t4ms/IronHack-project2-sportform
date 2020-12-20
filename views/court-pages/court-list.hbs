@@ -1,8 +1,17 @@
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjHDeZyrvWf87TrgJDJgucL5PELkG9L3g&callback=initMap">
+</script>
+
+<script type="text/javascript" src="/public/javascripts/script.js"></script>
+
+<div id="map"></div>
+
 <ul>
   {{#each courtsFromDB}}
   <li> 
     <h3> <a href="/courts/{{this._id}}"> {{ this.name }} </a></h3> 
     <p>Game created by {{ this.owner.fullName }}</p>
+    <p>location {{ this.location.coordinates.[1]}}</p>
     {{#if this.isOwner}}
       <form action="/courts/{{this._id}}/delete" method="POST">
         <button type="submit">Delete</button>
@@ -11,3 +20,4 @@
   </li>
   {{/each}}
 </ul>
+
