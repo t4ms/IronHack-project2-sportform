@@ -83,12 +83,18 @@ router.post('/courts/:courtId/update', (req, res, next) => {
     const courtDate = req.body.date;
     const courtTime = req.body.time;
     const courtDescription = req.body.description;
+    const courtLongitude = req.body.locationLong;
+    const courtLatitud= req.body.locationLat;
 
     const updatedcourt = { 
       name: courtName,
       date: courtDate,
       time: courtTime,
       description: courtDescription,
+      location: {
+        type: 'Point',
+        coordinates: [courtLongitude, courtLatitud]
+      },
       owner: req.user._id	                                                             
     }
     Court.findByIdAndUpdate(req.params.courtId, updatedcourt)
