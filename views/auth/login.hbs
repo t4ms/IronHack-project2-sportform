@@ -1,6 +1,13 @@
-<h1>Login</h1>
-
+<main>
+<div class="jumbotron">
+<h2>Login</h2>
 <form action="/login" method="POST">
+
+<div class="alert alert-dismissible alert-warning">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">{{> flashMessage}}</h4>
+</div>
+
 
   <label for="">Email:</label>
   <input type="text" name="email" id="" >
@@ -8,7 +15,10 @@
   <label for="">Password:</label>
   <input type="password" name="password" id="" >
   
-  <button type="submit">Login</button>
+  <button type="submit" class="btn btn-outline-success btn-block">Login</button>
 </form>
+</div>
+</main>
 
-{{> flashMessage}}
+
+

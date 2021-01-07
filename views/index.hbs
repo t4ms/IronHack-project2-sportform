@@ -1,6 +1,35 @@
-<h1>{{title}}</h1>
+{{!-- <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 
 {{#if currentUser}}
   Welcome, {{ currentUser.fullName }}!
-{{/if}}
+{{/if}} --}}
+<main>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Column heading</th>
+      <th scope="col">Column heading</th>
+      <th scope="col">Column heading</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each courtsFromDB}}
+    <tr>
+      <th scope="row"><img src="/images/{{sport}}Court.svg" width="80" height="40"></th>
+      <th scope="row"><a href="/courts/{{this._id}}"> {{ this.name }} </a></th>
+      <td>{{ this.date}}</td>
+      <td>{{ this.owner.fullName }}</td>
+      <td>{{#if this.isOwner}}
+      <form action="/courts/{{this._id}}/delete" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    {{/if}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+</main>

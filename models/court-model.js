@@ -3,20 +3,27 @@ const Schema = mongoose.Schema;
 
 const courtSchema = new Schema({
   name: String ,
+  sport: {
+    type: String,
+    enum : ['football','tennis','volleyball','basketball','others'],
+    required: [true, "This field is required"],
+  },
   date: Date,
-  time: Number,
+  startTime: Number,
+  endTime: Number,
   description: String,
   location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      // required: true
+    type: String,
+    // required: [true, "This field is required"]
     },
-    coordinates: {
-      type: [Number],
-      // required: true
-    }
-  },
+  lng: {
+    type: String,
+    // required: [true, "This field is required"]
+    },
+  lat: {
+    type: String,
+    // required: [true, "This field is required"]
+    },
   player: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' } ]

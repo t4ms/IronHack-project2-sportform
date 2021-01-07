@@ -8,7 +8,7 @@
 
 {{#each courtsFromDB}}
 <script>
-courts.push (["{{this.name}},", {{ this.location.coordinates.[0]}}, {{ this.location.coordinates.[1]}}, 4])
+courts.push (["{{this.name}},", {{ this.lat }}, {{ this.lng }}, 4, "{{this.sport}}"])
 </script>
 {{/each}}
 
@@ -35,7 +35,7 @@ function setMarkers(map) {
   // (0,0) is located in the top left of the image.
   // Origins, anchor positions and coordinates of the marker increase in the X
   // direction to the right and in the Y direction down.
-  const image = {
+  {{!-- const image = {
     url:
       "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
     // This marker is 20 pixels wide by 32 pixels high.
@@ -44,7 +44,7 @@ function setMarkers(map) {
     origin: new google.maps.Point(0, 0),
     // The anchor for this image is the base of the flagpole at (0, 32).
     anchor: new google.maps.Point(0, 32),
-  };
+  }; --}}
   // Shapes define the clickable region of the icon. The type defines an HTML
   // <area> element 'poly' which traces out a polygon as a series of X,Y points.
   // The final coordinate closes the poly by connecting to the first coordinate.
@@ -58,7 +58,17 @@ function setMarkers(map) {
     new google.maps.Marker({
       position: { lat: court[1], lng: court[2] },
       map,
-      icon: image,
+      icon: {
+        url:
+      `/images/${court[4]}Courtsmall.svg`,
+      scaledSize: new google.maps.Size(100, 50),
+    // This marker is 20 pixels wide by 32 pixels high.
+      size: new google.maps.Size(150, 50),
+    // The origin for this image is (0, 0).
+      origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+       anchor: new google.maps.Point(0, 32),
+      },
       shape: shape,
       title: court[0],
       zIndex: court[3],
@@ -73,18 +83,4 @@ function setMarkers(map) {
 <div id="map"></div>
 
 
-<ul>
-  {{#each courtsFromDB}}
-  <li> 
-    <h3> <a href="/courts/{{this._id}}"> {{ this.name }} </a></h3> 
-    <p>Game created by {{ this.owner.fullName }}</p>
-    <p>location {{ this.location.coordinates.[1]}}</p>
-    {{#if this.isOwner}}
-      <form action="/courts/{{this._id}}/delete" method="POST">
-        <button type="submit">Delete</button>
-      </form>
-    {{/if}}
-  </li>
-  {{/each}}
-</ul>
 

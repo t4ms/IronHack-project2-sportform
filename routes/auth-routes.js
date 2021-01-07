@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('../models/user-model');
 
@@ -12,19 +12,14 @@ router.get('/signup', (req, res, next) => {
 })
 
 
-router.post('/register', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
   const userFullName = req.body.fullName;
 
-  // if any of the following fields are left empty, send warning to users
-  if(userEmail == '' || userPassword == '' || userFullName == ''){
+  if( userEmail === '' || userPassword === '' || userFullName === '' ){
     req.flash('error', 'Please fill all the fields.');
-
-    // and render the form again
-    res.render('auth/signup');
-
-    // we return because we want to to stop execution on this route until user submits the data so we can proceed
+    res.redirect('/signup');
     return;
   }
 
@@ -32,26 +27,22 @@ router.post('/register', (req, res, next) => {
   // find user by inputted email
   User.findOne({ email: userEmail })
   .then(foundUser => {
-    // if you find user already saved in the DB with the same email, send them warning
     if(foundUser !==null){
-      req.flash('error', 'Sorry, there is already user with the same email!');
-      // here we will redirect to '/login' since they already have profile (they are in the DB)
+      req.flash('error', 'Sorry, there is already player with the same email!');
       res.redirect('/login');
       return;
     }
 
 
-    // if there's no user with the email they just input, proceed to saving user in the DB
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPassword = bcrypt.hashSync(userPassword, salt);
 
-      User.create({
-        email: userEmail,
-        password: hashPassword,
-        fullName: userFullName
-      })
+  User.create({
+    email: userEmail,
+    password: hashPassword,
+    fullName: userFullName
+    })
       .then(user => {
-        // if all good, log in the user automatically
           req.login(user, (err) => {
             if(err){
               req.flash.error = 'some message here'
@@ -62,9 +53,9 @@ router.post('/register', (req, res, next) => {
             res.redirect('/private');
           })
       })
-      .catch( err => next(err)); //closing User.create()
+      .catch( err => next(err)); 
   })
-  .catch( err => next(err)); // closing User.findOne();
+  .catch( err => next(err));
 });
 
 //////////////// LOGIN /////////////////////

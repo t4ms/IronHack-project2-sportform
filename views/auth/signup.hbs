@@ -1,17 +1,25 @@
-<h1>Create an account</h1>
+<main>
+<div class="jumbotron">
+<h2>Create an account</h2>
 
-<form action="/register" method="POST">
+<div class="alert alert-dismissible alert-warning">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">{{> flashMessage}}</h4>
+</div>
 
-  <label for="">Full name:</label>
-  <input type="text" name="fullName" >
+<form action="/signup" method="POST">
 
-  <label for="">Email:</label>
-  <input type="text" name="email" id="" >
+  <label for="input-fullName">Full name:</label>
+  <input type="text" id="input-fullName" name="fullName" placeholder="Your Name" >
 
-  <label for="">Password:</label>
-  <input type="password" name="password" id="" >
+  <label for="input-email">Email:</label>
+  <input type="email" id="input-email" name="email" placeholder="Your email" >
+
+  <label for="input-password">Password</label>
+  <input type="password" name="password" id="input-password" placeholder="********" />
   
-  <button type="submit">Create account</button>
+  <button type="submit" class="btn btn-outline-success btn-block">Create account</button>
 </form>
+</div>
+</main>
 
-{{> flashMessage}}
