@@ -1,7 +1,12 @@
-<h1>{{ currentUser.fullName }} 's  private page</h1>
+<main>
+  <div class="jumbotron">
+  <h1>Hello {{ currentUser.fullName }}</h1>
 
-<h3>Welcome to my private page!</h3>
+  <h3>Thank you for being part of the sportform-community</h3>
 
+  
     <form action="/logout" method="post">
-      <button type="submit">Logout</button>
+    <button type="submit" class="btn btn-outline-info">Logout</button>
     </form>
+  </div>
+</main>

@@ -1,8 +1,9 @@
 <main>
-<div class="jumbotron">
-<h2>Create a new court</h2>
+
 
 <form action='/create-court' method='POST'>
+<div class="jumbotron">
+<h2>Create a new court</h2>
 
   {{#if messages}}
     {{#each messages}}
@@ -93,7 +94,6 @@
 
   <button type="submit" class="btn btn-outline-success btn-block">Create court</button>
 </div>
-
-</form>
 </div>
+</form>
 </main>
