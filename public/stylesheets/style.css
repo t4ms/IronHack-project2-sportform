@@ -16,18 +16,23 @@
   padding: 2%;
   margin: 2%; }
 
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center; }
+
 main {
-  margin: 5%;
+  margin: 5% auto;
+  text-align: left;
   padding: 10% auto 10% auto;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif; }
 
 a {
   color: #00b7ff;
   text-decoration: none;
-  font-size: 1.5em; }
+  font-size: 3em; }
 
 form {
-  margin: 30px auto 10% auto;
   width: 450px; }
 
 form label {

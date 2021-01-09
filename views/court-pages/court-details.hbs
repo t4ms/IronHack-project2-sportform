@@ -4,6 +4,7 @@
 
 
 {{#if court.isOwner}}
+
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link active" data-toggle="tab" href="#yourgame">Your Game</a>
@@ -13,15 +14,21 @@
   </li>
   <li class="nav-item">
     <form action="/courts/{{court._id}}/delete" method="POST">
-      <button type="submit">Delete</button>
+      <button type="submit" class="btn btn-outline-danger">Delete Court</button>
     </form>
   </li>
 </ul>
+
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane fade active show" id="yourgame">
-    <h2>It´s your game, {{court.owner.fullName}}!</h2>
-  </div>
+      <div class="alert alert-dismissible alert-success m-3">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h3>It´s your game, {{court.owner.fullName}}!</h3>
+</div>
+</div>
   <div class="tab-pane fade" id="edit">
+    <div class="jumbotron m-3">
+    <h2>Edit your court</h2>
     <form action="/courts/{{court._id}}/update" method="post" id="edit-form">
     <label for="">Name</label>
     <input type="text" name="name" id="" value="{{court.name}}">
@@ -29,23 +36,32 @@
     <label for="">Date</label>
     <input type="date" name="date" id="" value="{{court.date}}">
 
-    <label for="">Description</label>
-    <textarea name="description" id="" cols="30" rows="10"> {{court.description}} </textarea>
+      <div class="row">
+    <div class="col-6">
+          <label for="">Start Time</label>
+          <input type="num" name="startTime" id="" value="{{court.startTime}}">
+    </div>
+    <div class="col-6">
+         <label for="">End Time</label>
+        <input type="num" name="endTime" id="" value="{{court.endTime}}">
+    </div>
+  </div>
 
-    <button type="submit">Save changes</button>
+     <div class="form-group">
+      <label for="exampleTextarea">Game Description</label>
+      <textarea name="description" class="form-control" id="exampleTextarea" rows="3" value="{{court.description}}"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-outline-success btn-block">Save changes</button>
+  </div>
   </div>
   </div>
 {{/if}}
 
-{{#if court.isOwner}}
-         <form action="/courts/{{court._id}}/delete" method="POST">
-            <button type="submit">Delete</button>
-          </form>
-{{/if}}
 
 <main>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col" align="center">
       <img src="/images/{{court.sport}}Court.svg" width="400" height="150">
@@ -60,56 +76,69 @@
 
 <hr>
 <p>Date: {{ court.date }}</p>
-<p>Time: {{ court.time }}</p>
+<p>Time: {{ court.startTime }} - {{ court.endTime}}</p>
 <p>Description: {{ court.description }}</p>
-<p>Location: {{ court.location.coordinates }}</p>
+<p>Location: {{ court.location }}</p>
+<p>Number Players: {{ court.numberPlayer }}</p>
 <hr>
 
-
-
-<hr>
-
+<h3>Player:</h3>
 {{#if court.player}}
-  <h3>Player:</h3>
-  {{#each court.player}}
-    <p> Player1: <b>{{ this.fullName }} </b> </p>
-    <p> Player1: <b>{{ this.email }} </b> </p>
+  
+<div class="container">
+  <div class="row">
+    {{#each court.player}}
+    <div class="col m-2 p-2 text-center">
 
+      <img src="/images/accountProfilactive.svg" width="80" height="50">
+      <br>
+      <h4 class="text-center"><strong>{{ this.fullName }} </strong></h4>
+      {{!-- {{#if this.isOwner}} --}}
       <form action="/player/{{this._id}}" method="POST">
-        <button type="submit"> Delete </button>
+       <button type="submit" class="btn btn-outline-secondary text-center"> x </button> 
       </form>
-  {{/each}}
+      {{!-- {{/if}}     --}}
+    </div>
+    
+    {{/each}}
+  </div>
+</div>
 {{/if}}  
 
 
-<h2>Join the game</h2>
 <form action="/courts/{{court._id}}/add-player" method="POST">
-<button type="submit">Join</button>
+<button type="submit"class="btn btn-success">Join</button>
 </form>
 
-<hr>
+<br><br><br>
 
-
-<hr>
 
 {{#if court.comments}}
-  <h3>comments:</h3>
+  <h3>Chat</h3>
   {{#each court.comments}}
-    <p> <b>{{ this.user.fullName }} said: </b> {{ this.comment }}  </p>
-    {{#if this.canBeChanged}}
+    <div class="alert alert-dismissible alert-success">
+      {{#if this.canBeChanged}}
       <form action="/comments/{{this._id}}" method="POST">
-        <button type="submit"> Delete </button>
+        <button type="submit" class="close" data-dismiss="alert">&times;</button>
       </form>
-    {{/if}}
+      {{/if}}
+      <strong>{{ this.user.fullName }}</strong><br>
+      <p>{{ this.comment }}</p>
+    </div>
   {{/each}}
 {{/if}}
 
 
-  <h2>Add a comment:</h2>
   <form action="/courts/{{court._id}}/add-comment" method="POST">
-    <textarea name="comment" id="" cols="10" rows="5"></textarea>
-    <button type="submit">Add</button>
+  <div class="form-group">
+    <textarea name="comment" class="form-control" id="exampleTextarea" rows="3"></textarea>
+    <button type="submit" class="btn btn-success">Add</button>
+  </div>
   </form>
 
+  <br>
+  <br>
+  <br>
+</div>
 </main>
 
