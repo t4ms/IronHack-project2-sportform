@@ -5,12 +5,13 @@ const courtSchema = new Schema({
   name: String ,
   sport: {
     type: String,
-    enum : ['football','tennis','volleyball','basketball','others'],
+    enum : ['football','tennis','volleyball','basketball','other'],
     required: [true, "This field is required"],
   },
   date: Date,
   startTime: Number,
   endTime: Number,
+  numberPlayer: Number,
   description: String,
   location: {
     type: String,

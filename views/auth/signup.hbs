@@ -2,12 +2,15 @@
 <div class="jumbotron">
 <h2>Create an account</h2>
 
-<div class="alert alert-dismissible alert-warning">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <h4 class="alert-heading">{{> flashMessage}}</h4>
-</div>
-
 <form action="/signup" method="POST">
+
+  {{#if messages}}
+    {{#each messages}}
+    <div class="alert alert-dismissible alert-warning">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>{{ this }}
+    </div>
+    {{/each}}
+  {{/if}}
 
   <label for="input-fullName">Full name:</label>
   <input type="text" id="input-fullName" name="fullName" placeholder="Your Name" >

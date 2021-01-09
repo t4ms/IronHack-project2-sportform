@@ -15,6 +15,7 @@ router.post('/create-court', (req, res, next) => {
 
   const courtName = req.body.name;
   const courtSport = req.body.sport;
+  const numPlayer = req.body.numberPlayer;
   const courtDate = req.body.date;
   const courtstartTime = req.body.startTime;
   const courtendTime = req.body.endTime;
@@ -42,6 +43,7 @@ router.post('/create-court', (req, res, next) => {
     Court.create({
       name: courtName,
       sport: courtSport, 
+      numberPlayer: numPlayer,
       date: courtDate,
       startTime: courtstartTime,
       endTime: courtendTime,
@@ -107,25 +109,19 @@ Court.findById(req.params.courtId)
 router.post('/courts/:courtId/update', (req, res, next) => {
 
   const courtName = req.body.name;
-  const courtSport = req.body.sport;
+  const numberPlayer = req.body.numberPlayer;
   const courtDate = req.body.date;
   const courtstartTime = req.body.startTime;
   const courtendTime = req.body.endTime;
   const courtDescription = req.body.description;
-  const courtLongitude = req.body.longitude;
-  const courtLongitud= req.body.latitude;
 
   const updatedcourt = { 
     name: courtName,
-    sport: courtSport, 
+    numPlayer: numberPlayer,
     date: courtDate,
     startTime: courtstartTime,
     endTime: courtendTime,
     description: courtDescription,
-      location: {
-        type: 'Point',
-        coordinates: [courtLongitude, courtLatitud]
-      },
       owner: req.user._id	                                                             
     }
 
