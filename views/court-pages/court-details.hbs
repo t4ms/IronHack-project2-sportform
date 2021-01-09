@@ -12,7 +12,9 @@
     <a class="nav-link" data-toggle="tab" href="#edit">Edit Game</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#delete">Delete Game</a>
+    <form action="/courts/{{court._id}}/delete" method="POST">
+      <button type="submit">Delete</button>
+    </form>
   </li>
 </ul>
 <div id="myTabContent" class="tab-content">
@@ -32,23 +34,15 @@
 
     <button type="submit">Save changes</button>
   </div>
-  <div class="tab-pane fade" id="delete">
-    <div class="card border-danger mb-3" style="max-width: 20rem;">
-      <div class="card-header">DELETE</div>
-        <div class="card-body">
-          <h4 class="card-title">You want to delete? Are you sure?</h4>
-          <form action="/courts/{{court._id}}/delete" method="POST">
+  </div>
+{{/if}}
+
+{{#if court.isOwner}}
+         <form action="/courts/{{court._id}}/delete" method="POST">
             <button type="submit">Delete</button>
           </form>
-        </div>
-      </div>
-  </div>
-        
-
-
-
-
 {{/if}}
+
 <main>
 
 <div class="container">

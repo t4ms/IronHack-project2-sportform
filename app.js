@@ -15,7 +15,13 @@ const session = require('express-session');
 const passportSetup =  require('./config/passport/passport-setup');
 
 mongoose
-  .connect('mongodb://localhost/dbsportform', {useNewUrlParser: true})
+  .connect(    process.env.MONGODB_URI,            //  <--- UPDATE
+    {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+    })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
