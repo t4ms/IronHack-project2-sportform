@@ -1,99 +1,97 @@
 <main class="d-flex justify-content-center">
+  <form action='/create-court' method='POST'>
+    <div class="jumbotron">
+      <h2>Create a new court</h2>
+
+        {{#if messages}}
+          {{#each messages}}
+          <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>{{ this }}
+          </div>
+          {{/each}}
+        {{/if}}
+
+      <div class="container overflow-hidden">
+        <label for="">Name of the Game</label>
+        <input type="text" name="name" id="">
+
+        <div><br><hr><br></div>
+
+        <div class="row">
+          <label for="">Choose your sport</label>
+          <div class="col-6">
+              <label>
+              <input type="radio" name="sport" value="football" checked>
+              <img src="/images/footballCourt.svg" width="150" height="100">
+              <img src="/images/footballLabel.svg" height="15">
+              </label>
+          </div>
+          <div class="col-6">
+              <label>
+              <input type="radio" name="sport" value="tennis">
+              <img src="/images/tennisCourt.svg" width="150" height="100">
+              <img src="/images/tennisLabel.svg" height="15">
+              </label>
+          </div>
+          <div class="col-6">
+              <label>
+              <input type="radio" name="sport" value="volleyball">
+              <img src="/images/volleyballCourt.svg" width="150" height="100">
+              <img src="/images/volleyballLabel.svg" height="15">
+              </label>
+          </div>
+          <div class="col-6">
+              <label>
+              <input type="radio" name="sport" value="basketball">
+              <img src="/images/basketballCourt.svg" width="150" height="100">
+              <img src="/images/basketballLabel.svg" height="15">
+              </label>  
+          </div>
+          <div class="col-6">
+              <label>
+              <input type="radio" name="sport" value="other">
+              <img src="/images/otherCourt.svg" width="150" height="100">
+              <img src="/images/otherLabel.svg" height="15">
+              </label>  
+          </div>
+        </div>
+        <div><br><hr><br></div>
+        <label for="">Number of Players</label>
+        <div><br><br></div>
+        <div class="range-wrap">
+          <div class="range-value" id="rangeV"></div>
+          <input id="range" type="range" name="numberPlayer" min="2" max="30" value="15" step="1">
+        </div>
+
+        <div><br><hr><br></div>
+
+        <label for="">Date</label>
+        <input type="date" name="date" id="" format="MM/dd/yyyy">
+
+        <div class="row">
+          <div class="col-6">
+                <label for="">Start Time</label>
+                <input type="num" name="startTime" id="">
+          </div>
+          <div class="col-6">
+              <label for="">End Time</label>
+              <input type="num" name="endTime" id="">
+          </div>
+        </div>
+
+        <div><br><hr></div>
+
+        <label>Location</label>
+        <input type="text" name="location" placeholder="Choose your location">
 
 
-<form action='/create-court' method='POST'>
-<div class="jumbotron">
-<h2>Create a new court</h2>
+        <div class="form-group">
+            <label for="exampleTextarea">Game Description</label>
+            <textarea name="description" class="form-control" id="exampleTextarea" rows="3"></textarea>
+          </div>
 
-  {{#if messages}}
-    {{#each messages}}
-    <div class="alert alert-dismissible alert-warning">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>{{ this }}
+        <button type="submit" class="btn btn-outline-success btn-block">Create court</button>
+      </div>
     </div>
-    {{/each}}
-  {{/if}}
-
-<div class="container overflow-hidden">
-    <label for="">Name of the Game</label>
-  <input type="text" name="name" id="">
-
-  <div><br><hr><br></div>
-
-  <div class="row">
-    <label for="">Choose your sport</label>
-    <div class="col-6">
-        <label>
-        <input type="radio" name="sport" value="football" checked>
-        <img src="/images/footballCourt.svg" width="150" height="100">
-        <img src="/images/footballLabel.svg" height="15">
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-        <input type="radio" name="sport" value="tennis">
-        <img src="/images/tennisCourt.svg" width="150" height="100">
-        <img src="/images/tennisLabel.svg" height="15">
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-        <input type="radio" name="sport" value="volleyball">
-        <img src="/images/volleyballCourt.svg" width="150" height="100">
-        <img src="/images/volleyballLabel.svg" height="15">
-        </label>
-    </div>
-    <div class="col-6">
-        <label>
-        <input type="radio" name="sport" value="basketball">
-        <img src="/images/basketballCourt.svg" width="150" height="100">
-        <img src="/images/basketballLabel.svg" height="15">
-        </label>  
-    </div>
-    <div class="col-6">
-        <label>
-        <input type="radio" name="sport" value="other">
-        <img src="/images/otherCourt.svg" width="150" height="100">
-        <img src="/images/otherLabel.svg" height="15">
-        </label>  
-    </div>
-  </div>
-  <div><br><hr><br></div>
-  <label for="">Number of Players</label>
-  <div><br><br></div>
-  <div class="range-wrap">
-    <div class="range-value" id="rangeV"></div>
-    <input id="range" type="range" name="numberPlayer" min="2" max="30" value="15" step="1">
-  </div>
-
-  <div><br><hr><br></div>
-
-  <label for="">Date</label>
-  <input type="date" name="date" id="" format="MM/dd/yyyy">
-
-  <div class="row">
-    <div class="col-6">
-          <label for="">Start Time</label>
-          <input type="num" name="startTime" id="">
-    </div>
-    <div class="col-6">
-         <label for="">End Time</label>
-        <input type="num" name="endTime" id="">
-    </div>
-  </div>
-
-  <div><br><hr></div>
-
-  <label>Location</label>
-  <input type="text" name="location" placeholder="Choose your location">
-
-
-  <div class="form-group">
-      <label for="exampleTextarea">Game Description</label>
-      <textarea name="description" class="form-control" id="exampleTextarea" rows="3"></textarea>
-    </div>
-
-  <button type="submit" class="btn btn-outline-success btn-block">Create court</button>
-</div>
-</div>
-</form>
+  </form>
 </main>
